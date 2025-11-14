@@ -2,6 +2,11 @@
 {
     internal class Program
     {
+        /********************************************************************************
+         * Author: Camden Taylor
+         * Assignment Name: Methods, Arrays and File I/O
+         * Date: November 14th, 2025
+         *******************************************************************************/
         /// <summary>
         /// Main method for Assignment 3.
         /// Program allows the user to enter/save/load/edit/view daily time tracking values from a file.
@@ -15,19 +20,21 @@
             // TODO: 
             // declare a constant to represent the maximum size of the arrays
             // arrays must be large enough to store data for an entire month 
-
+            const int MONTH_DAYS = 31;
             // TODO:
             // create a string array named dates, using the max size constant you created above to specify the physical size of the array
-
+            string[] dates = new string[MONTH_DAYS];
             // TODO:
             // create a double array named minutes, using the max size constant you created above to specify the physical size of the array
-
+            double[] minutes = new double[MONTH_DAYS];
             // TODO:
             // create a variable to represent the logical size of the array
-
+            int logicalMonth = 0;
+            int count = 0;
             DisplayProgramIntro();
 
             // TODO: call DisplayMainMenu()
+            DisplayMainMenu();
 
             while (continueProgram)
             {
@@ -58,6 +65,7 @@
                         {
                             string filename = PromptForFilename();
                             // TODO: call SaveToFile()
+                            SaveToFile();
                         }
                         else
                         {
@@ -73,6 +81,7 @@
                         else if (AcceptEditEntryDisclaimer())
                         {
                             //TODO: call EditEntries()
+                            EditEntries();
                         }
                         else
                         {
@@ -99,6 +108,7 @@
                         else
                         {
                             // TODO: call DisplayEntries()
+                            DisplayEntries();
                         }
                         break;
                     case "M": //[M]onthly Statistics
@@ -113,6 +123,7 @@
                         break;
                     case "D": //[D]isplay Main Menu
                         //TODO: call DisplayMainMenu()
+                        DisplayMainMenu();
                         break;
                     case "Q": //[Q]uit Program
                         bool quit = Prompt("Are you sure you want to quit (y/n)? ").ToLower().Equals("y");
@@ -148,6 +159,7 @@
                 string analysisMenuChoice;
 
                 // TODO: call DisplayAnalysisMenu()
+                DisplayAnalysisMenu();
 
                 analysisMenuChoice = Prompt("Enter ANALYSIS sub-menu option: ").ToUpper();
                 Console.WriteLine();
@@ -156,13 +168,13 @@
                 {
                     case "A": //[A]verage 
                         // TODO: uncomment the next 2 lines & call CalculateMean();
-                        //double mean = ;
-                        //Console.WriteLine($"The mean value for {month} {year} is: {mean:N2}.\n");
+                        double mean = CalculateMean();
+                        Console.WriteLine($"The mean value for {month} {year} is: {mean:N2}.\n");
                         break;
                     case "H": //[H]ighest 
                         // TODO: uncomment the next 2 lines & call CalculateLargest();
-                        //double largest = ;
-                        //Console.WriteLine($"The largest value for {month} {year} is: {largest:N2}.\n");
+                        double largest = ;
+                        Console.WriteLine($"The largest value for {month} {year} is: {largest:N2}.\n");
                         break;
                     case "L": //[L]owest 
                         //TODO: uncomment the next 2 lines & call CalculateSmallest();
@@ -193,19 +205,95 @@
 
         // TODO: create the DisplayMainMenu() method
 
+        static void DisplayMainMenu()
+        {
+            Console.WriteLine("MAIN MENU");
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("[N]ew Daily Entries");
+            Console.WriteLine("[S]ave Entries to File");
+            Console.WriteLine("[E]dit Entries]");
+            Console.WriteLine("[L]oad File");
+            Console.WriteLine("[V]iew Entered/Loaded Data");
+            Console.WriteLine("[M]onthly Statistics");
+            Console.WriteLine("[Q]uit Program");
+            Console.WriteLine();
+            Console.WriteLine("Enter MAIN MENU option ('D' to display menu): ");
+        }
+
         // TODO: create the DisplayAnalysisMenu() method
+
+        static void DisplayAnalysisMenu()
+        {
+            Console.WriteLine("ANALYSIS SUB-MENU");
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("[A]verage");
+            Console.WriteLine("[H]ighest");
+            Console.WriteLine("[L]owest");
+            Console.WriteLine("[G]raph");
+            Console.WriteLine("[R]eturn to MAIN MENU");
+            Console.WriteLine();
+            Console.WriteLine("Enter ANALYSIS sub-menu option: ");
+        }
 
         // TODO: create the Prompt method
 
+        static string Prompt(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine();
+        }
+
         // TODO: create the PromptDouble() method
+
+        static double PromptDouble()
+        {
+
+        }
 
         // optional TODO: create the PromptInt() method
 
         // TODO: create the CalculateLargest() method
 
+        static double CalculateLargest(double[] numberArray )
+        {
+            double largestNumber = 0;
+            for (int i = 0; i < numberArray.Length; i++)
+            {
+                if (numberArray[i] > largestNumber)
+                {
+                    largestNumber = numberArray[i];
+                }
+            }
+            return largestNumber;
+        }
+
         // TODO: create the CalculateSmallest() method
 
+        static double CalculateSmallest(double[] numberArray )
+        {
+            double smallestNumber = 0;
+            for (int i = 0; i < numberArray.Length; i++)
+            {
+                if (numberArray[i] < smallestNumber)
+                {
+                    smallestNumber = numberArray[i];
+                }
+            } 
+            return smallestNumber;
+        }
+
         // TODO: create the CalculateMean() method
+
+        static double CalculateMean(double[] numberArray)
+        {
+            double meanNumber = 0;
+            for (int i = 0;i < numberArray.Length;i++)
+            {
+                meanNumber = (meanNumber + numberArray[i] / numberArray.Length);
+            }
+            return meanNumber
+        }
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 2 ++++++++++++++++++++++++++++++++++++
 
