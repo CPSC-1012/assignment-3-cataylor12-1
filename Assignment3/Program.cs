@@ -1,4 +1,6 @@
-﻿namespace Assignment3
+﻿using System.Linq.Expressions;
+
+namespace Assignment3
 {
     internal class Program
     {
@@ -31,6 +33,7 @@
             // create a variable to represent the logical size of the array
             int logicalMonth = 0;
             int count = 0;
+
             DisplayProgramIntro();
 
             // TODO: call DisplayMainMenu()
@@ -49,6 +52,7 @@
                         if (AcceptNewEntryDisclaimer())
                         {
                             // TODO: call EnterDailyValues & assign its return value
+                            EnterDailyValues();
                             Console.WriteLine($"\nEntries completed. {count} records in temporary memory.\n");
                         }
                         else
@@ -238,17 +242,19 @@
 
         // TODO: create the Prompt method
 
-        static string Prompt(string prompt)
+        static string Prompt(string message)
         {
-            Console.Write(prompt);
+            Console.Write(message);
             return Console.ReadLine();
         }
 
         // TODO: create the PromptDouble() method
 
-        static double PromptDouble()
+        static double PromptDouble(string message)
         {
-
+            double number;
+            Console.WriteLine(message);
+            number = double.Parse(Console.ReadLine());
         }
 
         // optional TODO: create the PromptInt() method
@@ -272,9 +278,11 @@
 
         static double CalculateSmallest(double[] numberArray )
         {
+        // Run through each value in the array
             double smallestNumber = 0;
             for (int i = 0; i < numberArray.Length; i++)
             {
+            // Find the smallest number in the array and set smallestNumber equal to it
                 if (numberArray[i] < smallestNumber)
                 {
                     smallestNumber = numberArray[i];
@@ -287,38 +295,65 @@
 
         static double CalculateMean(double[] numberArray)
         {
+        // Run through each value in the array
             double meanNumber = 0;
-            for (int i = 0;i < numberArray.Length;i++)
+            for (int i = 0; i < numberArray.Length;i++)
             {
+            // Calculate by dividing the value by the amount of numbers in the array
                 meanNumber = (meanNumber + numberArray[i] / numberArray.Length);
             }
-            return meanNumber
+            return meanNumber;
         }
 
         // ++++++++++++++++++++++++++++++++++++ Difficulty 2 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the EnterDailyValues method
+        static void EnterDailyValues(string[] dates, double[] minutes)
+        {
+        // Prompt user for dates and display hints
+            string month = Prompt("Enter the month (e.g. JAN): ").ToUpper();
+            string year = Prompt("Enter the year (yyyy): ");
 
-        // TODO: create the LoadFromFile method
+            Console.WriteLine();
+            Console.WriteLine("Hint: Enter -1 to cancel and exit.");
 
-        // TODO: create the SaveToFile method
+        // Request values for each day in the array
+            for (int i = 0; i < dates.Length;i++)
+            {
+                double values = PromptDouble($"Enter the minutes for day {i}\nHint: Enter -1 to cancel and exit.");
+                minutes[i] = values;
+            }
 
-        // TODO: create the DisplayEntries method
+            // TODO: create the LoadFromFile method
 
-        // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
+            // TODO: create the SaveToFile method
+            static void SaveToFile(string[]dates, double[] minutes)
+            {
+                StreamWriter reader = new StreamWriter(path);
 
-        // TODO: create the EditEntries method
+                for (int i = 0; i < dates.Length; i++)
+                    while(Line != null)
+                    {
+                       string line = writer.WriteLine(dates[i]);
+                    }
+            }
 
-        // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
+            // TODO: create the DisplayEntries method
 
-        // TODO: create the DisplayChart method
+            // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
 
-        // ********************************* Helper methods *********************************
+            // TODO: create the EditEntries method
 
-        /// <summary>
-        /// Displays the Program intro.
-        /// </summary>
-        static void DisplayProgramIntro()
+            // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
+
+            // TODO: create the DisplayChart method
+
+            // ********************************* Helper methods *********************************
+
+            /// <summary>
+            /// Displays the Program intro.
+            /// </summary>
+            static void DisplayProgramIntro()
         {
             Console.WriteLine("****************************************\n" +
                 "*                                      *\n" +
