@@ -329,12 +329,12 @@ namespace Assignment3
             // TODO: create the SaveToFile method
             static void SaveToFile(string[]dates, double[] minutes)
             {
-                StreamWriter reader = new StreamWriter(path);
+                StreamWriter writer = new StreamWriter(path);
 
                 for (int i = 0; i < dates.Length; i++)
-                    while(Line != null)
                     {
-                       string line = writer.WriteLine(dates[i]);
+                        writer.WriteLine(dates[i]);
+                        writer.WriteLine(minutes[i]);
                     }
             }
 
