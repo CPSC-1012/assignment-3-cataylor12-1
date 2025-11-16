@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace Assignment3
 {
@@ -52,7 +53,7 @@ namespace Assignment3
                         if (AcceptNewEntryDisclaimer())
                         {
                             // TODO: call EnterDailyValues & assign its return value
-                            EnterDailyValues();
+                            EnterDailyValues(dates, minutes);
                             Console.WriteLine($"\nEntries completed. {count} records in temporary memory.\n");
                         }
                         else
@@ -172,18 +173,18 @@ namespace Assignment3
                 {
                     case "A": //[A]verage 
                         // TODO: uncomment the next 2 lines & call CalculateMean();
-                        double mean = CalculateMean();
+                        double mean = CalculateMean(numbers);
                         Console.WriteLine($"The mean value for {month} {year} is: {mean:N2}.\n");
                         break;
                     case "H": //[H]ighest 
                         // TODO: uncomment the next 2 lines & call CalculateLargest();
-                        double largest = ;
+                        double largest = CalculateLargest(numbers);
                         Console.WriteLine($"The largest value for {month} {year} is: {largest:N2}.\n");
                         break;
                     case "L": //[L]owest 
                         //TODO: uncomment the next 2 lines & call CalculateSmallest();
-                        //double smallest = ;
-                        //Console.WriteLine($"The smallest value for {month} {year} is: {smallest:N2}.\n");
+                        double smallest = CalculateSmallest(numbers);
+                        Console.WriteLine($"The smallest value for {month} {year} is: {smallest:N2}.\n");
                         break;
                     case "G": //[G]raph 
                         //TODO: call DisplayChart()
@@ -209,6 +210,7 @@ namespace Assignment3
 
         // TODO: create the DisplayMainMenu() method
 
+        // Give choices to the user
         static void DisplayMainMenu()
         {
             Console.WriteLine("MAIN MENU");
@@ -227,6 +229,8 @@ namespace Assignment3
 
         // TODO: create the DisplayAnalysisMenu() method
 
+
+        // More choices
         static void DisplayAnalysisMenu()
         {
             Console.WriteLine("ANALYSIS SUB-MENU");
@@ -242,6 +246,7 @@ namespace Assignment3
 
         // TODO: create the Prompt method
 
+        // Display message and save user response
         static string Prompt(string message)
         {
             Console.Write(message);
@@ -250,22 +255,31 @@ namespace Assignment3
 
         // TODO: create the PromptDouble() method
 
+        // Display message and save user number response
         static double PromptDouble(string message)
         {
-            double number;
-            Console.WriteLine(message);
-            number = double.Parse(Console.ReadLine());
+            Console.Write(message);
+            return double.Parse(Console.ReadLine());
         }
 
         // optional TODO: create the PromptInt() method
+
+        // Display message and save user int response
+        static int PromptInt(string message)
+        {
+            Console.Write(message);
+            return int.Parse(Console.ReadLine());
+        }
 
         // TODO: create the CalculateLargest() method
 
         static double CalculateLargest(double[] numberArray )
         {
+         // Loop through each value in the array and find the largest value
             double largestNumber = 0;
             for (int i = 0; i < numberArray.Length; i++)
             {
+            // Check each value in the array and keep the largest one
                 if (numberArray[i] > largestNumber)
                 {
                     largestNumber = numberArray[i];
@@ -278,11 +292,11 @@ namespace Assignment3
 
         static double CalculateSmallest(double[] numberArray )
         {
-        // Run through each value in the array
+        // Loop through each value in the array to find the smallest value
             double smallestNumber = 0;
             for (int i = 0; i < numberArray.Length; i++)
             {
-            // Find the smallest number in the array and set smallestNumber equal to it
+            // Check each value in the array and keep the smallest one
                 if (numberArray[i] < smallestNumber)
                 {
                     smallestNumber = numberArray[i];
@@ -295,11 +309,11 @@ namespace Assignment3
 
         static double CalculateMean(double[] numberArray)
         {
-        // Run through each value in the array
+        // Loop through each value in the array
             double meanNumber = 0;
             for (int i = 0; i < numberArray.Length;i++)
             {
-            // Calculate by dividing the value by the amount of numbers in the array
+            // Calculate average by adding each number in the array then divide by amount of numbers in array
                 meanNumber = (meanNumber + numberArray[i] / numberArray.Length);
             }
             return meanNumber;
@@ -312,23 +326,37 @@ namespace Assignment3
         {
         // Prompt user for dates and display hints
             string month = Prompt("Enter the month (e.g. JAN): ").ToUpper();
-            string year = Prompt("Enter the year (yyyy): ");
+            int year = PromptInt("Enter the year (yyyy): ");
 
-            Console.WriteLine();
-            Console.WriteLine("Hint: Enter -1 to cancel and exit.");
+            Console.WriteLine("\nHint: Enter -1 to cancel and exit.");
 
         // Request values for each day in the array
             for (int i = 0; i < dates.Length;i++)
             {
                 double values = PromptDouble($"Enter the minutes for day {i}\nHint: Enter -1 to cancel and exit.");
-                minutes[i] = values;
+
+                // Cancel if user inputs -1
+                if (values != -1)
+                {
+                    minutes[i] = values;
+                }
+                // If they don't enter -1, end prompting for minutes
+                else
+                {
+                    break;
+                }
             }
 
             // TODO: create the LoadFromFile method
+            static int LoadFromFile(string filename, string[] dates, double[] values)
+            {
+               
+            }
 
             // TODO: create the SaveToFile method
             static void SaveToFile(string[]dates, double[] minutes)
             {
+                // Create streamwriter to save responses to file
                 StreamWriter writer = new StreamWriter(path);
 
                 for (int i = 0; i < dates.Length; i++)
